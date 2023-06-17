@@ -1,0 +1,5 @@
+Compiler version: 22.12.10.6463 - linux-x86-64
+Type: Quick_melt
+batch mode: False
+new session: True
+starting date: 06/16/2023 8:44:06.980 PM
