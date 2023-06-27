@@ -19,7 +19,7 @@ feature {NONE} -- Initialization
 		local
 			c: CHARACTER
 		do
-			create board.make (20)
+			create board.make (20, 3, 5)
 			board.display
 			game_loop
 		end
@@ -27,25 +27,25 @@ feature {NONE} -- Initialization
 		local
 			c: CHARACTER
 		do
-            from
-                -- Your loop body code here
+			from
+					-- Your loop body code here
 
-            until
-                False
-            loop
-            	c := read_char
-            	if c = 'a' then
+			until
+				False
+			loop
+				c := read_char
+				if c = 'a' then
 					board.move_cat_left
-            	elseif c = 'd' then
+				elseif c = 'd' then
 					board.move_cat_right
-            	elseif c = 's' then
+				elseif c = 's' then
 					board.move_cat_down
-            	elseif c = 'w' then
+				elseif c = 'w' then
 					board.move_cat_up
-            	end
-            	board.display
-                -- Your loop body code here
-            end
+				end
+				board.display
+					-- Your loop body code heress
+			end
 		end
 	read_char: CHARACTER
 			-- Read a character from a console without waiting for Enter.

@@ -48,7 +48,8 @@ groupstype='gid_t'
 uidtype='uid_t'
 d_chown='define'
 d_dup2='define'
-d_dirnamlen='undef'
+d_dirnamlen='define'
+#Check value for next 1 on 64 bits platform.
 d_eofpipe='define'
 d_fcntl='define'
 d_geteuid='define'
@@ -92,7 +93,7 @@ d_utime='define'
 i_sysresrc='define'
 i_systimeb='define'
 i_systimes='define'
-i_time='define'
+i_time='undef'
 i_systime='define'
 i_systimek='undef'
 i_utime='define'
@@ -136,7 +137,7 @@ i_varargs='undef'
 #Shell
 eunicefix=':'
 rm='/bin/rm'
-sed='/bin/sed'
+sed='/usr/bin/sed'
 spitshell='cat'
 
 #Compiler/Preprocessor
@@ -160,25 +161,24 @@ add_log='undef'
 if [ -n "$CC" ]; then
 	cc=$CC
 else
-	cc='gcc'
+	cc='cc'
 fi
 if [ -n "$CFLAGS" ]; then
 	ccflags=$CFLAGS
 else
-	ccflags='-pipe -fPIC -D_GNU_SOURCE -m64'
+	ccflags='-pipe -fno-common -fPIC'
 fi
-ccldflags='-m64'
+ccldflags=''
 if [ -n "$CPP" ]; then
 	cpp=$CPP
 else
-	cpp='g++'
+	cpp='c++'
 fi
 if [ -n "$CPPFLAGS" ]; then
 	cppflags=$CPPFLAGS
 else
 	cppflags="$ccflags"
 fi
-
 cpp_stuff='42'
 defvoidused='15'
 #Check value for next 4
@@ -186,18 +186,18 @@ eif_sgi='undef'
 eif_solaris='undef'
 eif_windows='undef'
 eif_64_bits='define'
-eif_os='EIF_OS_LINUX'
-eif_arch='EIF_ARCH_X86_64'
+eif_os='EIF_OS_DARWIN'
+eif_arch='EIF_ARCH_ARM6'
 Mcc='Mcc'
 d_tls='undef'
 #Check value for next 2
 objcflags='-ObjC'
-mtccflags="$ccflags -DEIF_THREADS -DEIF_LINUXTHREADS"
-mtcppflags="$cppflags -DEIF_THREADS -DEIF_LINUXTHREADS"
+mtccflags="$ccflags -DEIF_THREADS -DEIF_POSIX_THREADS"
+mtcppflags="$cppflags -DEIF_THREADS -DEIF_POSIX_THREADS"
 optimize="-O3"
 voidflags='15'
 #Check value for next 1
-warning_level='-Wall -Wextra -Wno-unused-parameter -Wno-long-long -pedantic -std=gnu99'
+warning_level='-Wall -Wextra -Wno-unused-parameter -pedantic -std=c99'
 wkoptimize="-O0"
 
 #Makefiles
@@ -212,12 +212,9 @@ if [ -n "$LD" ]; then
 else
 	ld='ld'
 fi
-lintflags=''
-ldflags="-m elf_x86_64"
-ldsharedflags="$ldflags -shared -o"
-
+ldflags=''
+ldsharedflags="$ldflags -dynamiclib -flat_namespace -undefined suppress -o"
 libs='-lm'
-
 ln='/bin/ln'
 if [ -n "$MAKE" ]; then
 	make=$MAKE
@@ -229,18 +226,17 @@ mkdir='mkdir'
 mtldflags="$ldflags"
 mtldsharedflags="$ldsharedflags"
 mtlibs="$libs -lpthread"
-
 mt_prefix='mt'
 mv='/bin/mv'
 prefix='lib'
 ranlib=':'
 shared_prefix='lib'
-shared_suffix='.so'
-shared_rt_suffix='.so'
+shared_suffix='.dylib'
+shared_rt_suffix='.dylib'
 sharedlibs='-lm'
 mtsharedlibs='-lm -lpthread'
 sharedlibversion='.22.12'
-sharedlink='ld'
+sharedlink=$cc
 suffix='.a'
 wkeiflib='wkbench'
 

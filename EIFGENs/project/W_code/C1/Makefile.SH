@@ -53,9 +53,7 @@ $spitshell >>Makefile <<'!NO!SUBS!'
 .cpp.o:
 	$(CPP) $(CPPFLAGS) -c $<
 
-OBJECTS = big_file_C1_c.o big_file_C1_cpp.o 
-
-OLDOBJECTS =  ap982.o ap982d.o bo983.o bo983d.o po984.o po984d.o 
+OBJECTS = ap984.o ap984d.o bo983.o bo983d.o po982.o po982d.o 
 
 all: Cobj1.o
 
@@ -76,4 +74,3 @@ local_clobber:: local_clean
 !NO!SUBS!
 chmod 644 Makefile
 $eunicefix Makefile
-

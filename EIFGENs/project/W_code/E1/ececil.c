@@ -10,7 +10,7 @@ extern "C" {
 void _A20_42_2 ( void(*f_ptr) (EIF_REFERENCE, EIF_TYPED_VALUE), EIF_TYPED_VALUE * closed, EIF_TYPED_VALUE * open)
 {
 	GTCX
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(419, "c_iconv_close", closed [1].it_r))(closed [1].it_r, open [1]);
+	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(416, "c_iconv_close", closed [1].it_r))(closed [1].it_r, open [1]);
 }
 
 	/* TRACING_HANDLER per_thread_trace */
@@ -32,7 +32,7 @@ void _A145_159_2 ( void(*f_ptr) (EIF_REFERENCE, EIF_TYPED_VALUE), EIF_TYPED_VALU
 void A166_98 (EIF_REFERENCE Current)
 {
 	GTCX
-	(FUNCTION_CAST(void, (EIF_REFERENCE)) RTVF(2210, "wipe_out", Current))(Current);
+	(FUNCTION_CAST(void, (EIF_REFERENCE)) RTVF(2327, "wipe_out", Current))(Current);
 }
 
 	/* MISMATCH_INFORMATION internal_put */

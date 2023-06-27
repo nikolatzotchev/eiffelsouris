@@ -105,7 +105,7 @@ E1/eparents.o: Makefile E1/Makefile E1/estructure.h
 
 OBJECTS= C1/Cobj1.o  E1/eoption.o E1/epattern.o E1/efrozen.o E1/ecall.o E1/eplug.o E1/eskelet.o E1/enames.o E1/evisib.o E1/ececil.o E1/einit.o E1/eparents.o
 
-PRECOMP_OBJECTS= "/home/petko/.es/eiffel_user_files/22.12/precomp/spec/linux-x86-64/EIFGENs/base-scoop-safe/W_code/preobj.o"
+PRECOMP_OBJECTS= "/Users/casparmayrgundter/Eiffel User Files/22.12/precomp/spec/macosx-armv6/EIFGENs/base-scoop-safe/W_code/preobj.o"
 
 
 project: $(OBJECTS)  E1/emain.o Makefile

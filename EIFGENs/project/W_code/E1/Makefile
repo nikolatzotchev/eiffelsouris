@@ -1,14 +1,14 @@
 INCLUDE_PATH =  -I"$(ISE_LIBRARY)/library/base/elks/encoding/implementation/include" 
 SHELL = /bin/sh
-CC = gcc
-CPP = g++
-CFLAGS = -O0 -pipe -fPIC -D_GNU_SOURCE -m64 -DEIF_THREADS -DEIF_LINUXTHREADS  -DWORKBENCH -I"/home/petko/Stuf/Eiffel_22.12/studio/spec/linux-x86-64/include" -I. $(INCLUDE_PATH)
-CPPFLAGS = -O0 -pipe -fPIC -D_GNU_SOURCE -m64 -DEIF_THREADS -DEIF_LINUXTHREADS  -DWORKBENCH -I"/home/petko/Stuf/Eiffel_22.12/studio/spec/linux-x86-64/include" -I. $(INCLUDE_PATH)
-LDFLAGS = -m elf_x86_64
-CCLDFLAGS = -m64  
-LDSHAREDFLAGS =  -m elf_x86_64 -shared -o
-EIFLIB = "/home/petko/Stuf/Eiffel_22.12/studio/spec/linux-x86-64/lib/libmtwkbench.a"
-EIFTEMPLATES = /home/petko/Stuf/Eiffel_22.12/studio/config/linux-x86-64/templates
+CC = cc
+CPP = c++
+CFLAGS = -O0 -pipe -fno-common -fPIC -DEIF_THREADS -DEIF_POSIX_THREADS  -DWORKBENCH -I"/usr/local/eiffel/Eiffel_22.12/studio/spec/macosx-armv6/include" -I. $(INCLUDE_PATH)
+CPPFLAGS = -O0 -pipe -fno-common -fPIC -DEIF_THREADS -DEIF_POSIX_THREADS  -DWORKBENCH -I"/usr/local/eiffel/Eiffel_22.12/studio/spec/macosx-armv6/include" -I. $(INCLUDE_PATH)
+LDFLAGS = 
+CCLDFLAGS =   
+LDSHAREDFLAGS =   -dynamiclib -flat_namespace -undefined suppress -o
+EIFLIB = "/usr/local/eiffel/Eiffel_22.12/studio/spec/macosx-armv6/lib/libmtwkbench.a"
+EIFTEMPLATES = /usr/local/eiffel/Eiffel_22.12/studio/config/macosx-armv6/templates
 LIBS = -lm -lpthread
 MAKE = make
 AR = ar
@@ -20,15 +20,15 @@ RANLIB = :
 RM = /bin/rm -f
 FILE_EXIST = 
 RMDIR = 
-X2C = "/home/petko/Stuf/Eiffel_22.12/studio/spec/linux-x86-64/bin/x2c"
-SHAREDLINK = ld
+X2C = "/usr/local/eiffel/Eiffel_22.12/studio/spec/macosx-armv6/bin/x2c"
+SHAREDLINK = cc
 SHAREDLIBS = -lm
-SHARED_SUFFIX = .so
+SHARED_SUFFIX = .dylib
 COMMAND_MAKEFILE = 
 START_TEST = if [ ! -f finished ] ; then 
 END_TEST = ; fi 
 CREATE_TEST = touch finished 
-SYSTEM_IN_DYNAMIC_LIB = project.so 
+SYSTEM_IN_DYNAMIC_LIB = project.dylib 
 
 .SUFFIXES:.cpp .o
 
