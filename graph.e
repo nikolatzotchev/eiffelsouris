@@ -59,14 +59,14 @@ feature
 
 				if mouse.insubway = board.subways.at(i).id then
 					--create pair.make (board.subways.at(i).exits.at(j), distance)
-					matrix [1, ((i-1)*board.subways.count + j +1)] := 0
-					matrix [((i-1)*board.subways.count + j +1), 1] := 0
+					matrix [1, ((board.subways.at (i).id-1)*board.subways.count + board.subways.at(i).exits.at(j).id +1)] := 0
+					matrix [((board.subways.at(i).id-1)*board.subways.count + board.subways.at(i).exits.at(j).id +1), 1] := 0
 				end
 				if mouse.insubway = -1 then
 					distance := mouse.currentposition.distanceto (board.subways.at(i).exits.at(j))
 					--create pair.make (board.subways.at(i).exits.at(j), distance)
-					matrix [1, ((i-1)*board.subways.count + j +1)] := distance
-					matrix [((i-1)*board.subways.count + j +1), 1] := distance
+					matrix [1, ((board.subways.at(i).id-1)*board.subways.count + board.subways.at(i).exits.at(j).id +1)] := distance
+					matrix [((board.subways.at(i).id-1)*board.subways.count + board.subways.at(i).exits.at(j).id +1), 1] := distance
 				end
 
 				j := j+1
@@ -105,8 +105,8 @@ feature
 							distance := board.subways.at(i).exits.at(j).distanceto (board.subways.at(k).exits.at(l))
 						end
 
-						matrix [((i-1)*board.subways.count+j +1),((k-1)*board.subways.count+l +1)] := distance
-						matrix [((k-1)*board.subways.count+l +1),((i-1)*board.subways.count+j +1)] := distance
+						matrix [((board.subways.at(i).id-1)*board.subways.count+board.subways.at(i).exits.at(j).id +1),((board.subways.at(k).id-1)*board.subways.count+board.subways.at(k).exits.at(l).id +1)] := distance
+						matrix [((board.subways.at(k).id-1)*board.subways.count+board.subways.at(k).exits.at(l).id +1),((board.subways.at(i).id-1)*board.subways.count+board.subways.at(i).exits.at(j).id +1)] := distance
 
 						l := l+1
 					end

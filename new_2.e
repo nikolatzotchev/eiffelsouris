@@ -11,7 +11,7 @@ create
 	make
 
 feature
-	exits: LINKED_LIST [POINT]
+	exits: LINKED_LIST [EXIT]
 	isFinal: BOOLEAN
 	id: INTEGER
 
@@ -22,9 +22,9 @@ feature
 		create exits.make
 	end
 
-	addExit (point: POINT)
+	addExit (exit: EXIT)
 	do
-		exits.extend (point)
+		exits.extend (exit)
 	end
 
 	setFinal (isFinal_: BOOLEAN)
