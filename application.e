@@ -19,7 +19,7 @@ feature {NONE} -- Initialization
 		local
 			c: CHARACTER
 		do
-			create board.make (20, 3, 5)
+			create board.make (20, 3, 3, 5)
 			board.display
 			game_loop
 		end
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 					-- Your loop body code here
 
 			until
-				False
+				board.finished
 			loop
 				c := read_char
 				if c = 'a' then
@@ -43,9 +43,15 @@ feature {NONE} -- Initialization
 				elseif c = 'w' then
 					board.move_cat_up
 				end
+				board.updateGameStatus
 				board.display
 					-- Your loop body code heress
 			end
+
+			io.put_string_32 ("Game over%NMice killed: ")
+			io.put_integer (board.getkilledmice)
+			io.put_string_32 ("%NMice that reached the final subway: ")
+			io.put_integer (board.getfinalmice)
 		end
 	read_char: CHARACTER
 			-- Read a character from a console without waiting for Enter.

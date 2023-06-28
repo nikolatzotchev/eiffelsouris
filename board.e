@@ -11,14 +11,15 @@ create
 	make
 
 feature --??????
-	cells: INTEGER
+	cells, exits: INTEGER
 	catLocation: POINT
 	subways: LINKED_LIST [SUBWAY]
 	mice: LINKED_LIST [MOUSE]
+	finished: BOOLEAN
 
 	display
 		local
-			i, j, k, l, m: INTEGER
+			i, j, k, l, m, s: INTEGER
 			subwayFound, isFinal, mouseFound: BOOLEAN
 
 		do
@@ -34,6 +35,7 @@ feature --??????
 					j > cells
 				loop
 
+					s := 0
 					subwayFound := false
 					isFinal := false
 
@@ -48,8 +50,9 @@ feature --??????
 						until
 							l > subways.at (k).exits.count
 						loop
-							if i = subways.at (k).exits.at (l).x and j = subways.at (k).exits.at (l).y then
+							if j = subways.at (k).exits.at (l).x and i = subways.at (k).exits.at (l).y then
 								subwayFound := true
+								--s := (subways.at (k).id -1) * 3 + subways.at (k).exits.at (l).id
 								if subways.at (k).isfinal then
 									isFinal := true
 								end
@@ -67,13 +70,13 @@ feature --??????
 					until
 						m > mice.count
 					loop
-						if mice.at (m).alive and i = mice.at (m).currentposition.x and j = mice.at (m).currentposition.y then
+						if mice.at (m).alive and j = mice.at (m).currentposition.x and i = mice.at (m).currentposition.y and not mice.at (m).reachedfinal then
 							mouseFound := true
 						end
 						m := m + 1
 					end
 
-					if i = catLocation.x and j = catLocation.y then
+					if j = catLocation.x and i = catLocation.y then
 						io.put_string_32 ("C ")
 					else
 						if mouseFound then
@@ -99,30 +102,30 @@ feature --??????
 
 	move_cat_up
 		do
-			if catLocation.x > 1 then
-				catLocation.setX (catLocation.x - 1)
-			end
-		end
-	move_cat_left
-		do
 			if catLocation.y > 1 then
 				catLocation.setY (catLocation.y - 1)
 			end
 		end
-	move_cat_down
+	move_cat_left
 		do
-			if catLocation.x < cells then
-				catLocation.setX (catLocation.x + 1)
+			if catLocation.x > 1 then
+				catLocation.setX (catLocation.x - 1)
 			end
 		end
-	move_cat_right
+	move_cat_down
 		do
 			if catLocation.y < cells then
 				catLocation.setY (catLocation.y + 1)
 			end
 		end
+	move_cat_right
+		do
+			if catLocation.x < cells then
+				catLocation.setX (catLocation.x + 1)
+			end
+		end
 
-	make (c, s, m: INTEGER)
+	make (c, s, e, m: INTEGER)
 			-- Initialization for `Current'.
 		local
 			randomGenerator: RANDOM
@@ -131,9 +134,11 @@ feature --??????
 			index, mouseIndex: INTEGER
 			finalSubway: INTEGER
 		do
+			finished := false
 			cells := c
+			exits := e
 
-			create randomGenerator.set_seed (4) -- ... is the initial "seed"
+			create randomGenerator.set_seed (8) -- ... is the initial "seed"
 			randomGenerator.start
 			initX := randomGenerator.item \\ c + 1
 			randomGenerator.forth
@@ -147,7 +152,7 @@ feature --??????
 			until
 				index > s
 			loop
-				addRandomSubway (index, c, 3, randomGenerator)
+				addRandomSubway (index, c, randomGenerator)
 				index := index + 1
 			end
 
@@ -190,7 +195,7 @@ feature --??????
 
 		end
 
-	addRandomSubway (id, c, n: INTEGER; randomGenerator: RANDOM)
+	addRandomSubway (id, c: INTEGER; randomGenerator: RANDOM)
 		local
 			subway: SUBWAY
 			index: INTEGER
@@ -203,7 +208,7 @@ feature --??????
 			from
 				index := 1
 			until
-				index > n
+				index > exits
 			loop
 
 				randomGenerator.forth
@@ -240,5 +245,106 @@ feature --??????
 
 			RESULT := subway
 		end
+
+	updateGameStatus
+	local
+		i, dead, final: INTEGER
+	do
+
+		dead := 0
+		final := 0
+		from
+			i := 1
+		until
+			i > mice.count
+		loop
+			if mice.at (i).alive then
+				if mice.at (i).currentposition.distanceto (catLocation) = 0 then
+					if not mice.at (i).reachedfinal then
+						mice.at (i).kill
+					end
+				else
+					mice.at (i).step
+					if mice.at (i).currentposition.distanceto (catLocation) = 0 and not mice.at (i).reachedfinal then
+						mice.at (i).kill
+					end
+				end
+				if mice.at (i).alive and mice.at (i).reachedfinal then
+					final := final +1
+				end
+			else
+				dead := dead+1
+			end
+
+			i := i+1
+		end
+
+		if dead + final = mice.count then
+			finished := true
+		end
+
+	end
+
+	hasReachedFinal (mouse: MOUSE): BOOLEAN
+	local
+		final: BOOLEAN
+		i: INTEGER
+		finalSubway: SUBWAY
+	do
+		final := false
+		finalSubway := getFinalSubway
+		from
+			i := 1
+		until
+			i > finalSubway.exits.count
+		loop
+			if mouse.currentposition.distanceto (finalSubway.exits.at (i)) = 0 then
+				final := true
+			end
+			i := i+1
+		end
+
+		Result := final
+	end
+
+	getKilledMice: INTEGER
+	local
+		i, kills: INTEGER
+	do
+		kills := 0
+
+		from
+			i := 1
+		until
+			i > mice.count
+		loop
+			if not mice.at (i).alive then
+				kills := kills +1
+			end
+			i := i+1
+		end
+
+		Result := kills
+	end
+
+	getFinalMice: INTEGER
+	local
+		i, final: INTEGER
+	do
+		final := 0
+
+		from
+			i := 1
+		until
+			i > mice.count
+		loop
+			if mice.at (i).alive and mice.at (i).reachedfinal then
+				final := final +1
+			end
+			i := i+1
+		end
+
+		Result := final
+	end
 
 end

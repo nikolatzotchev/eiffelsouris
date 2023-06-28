@@ -31,19 +31,55 @@ feature
 
 		create graph.make (CURRENT, board)
 		--graph.printgraph
-		io.put_string_32 ("qwer")
 		create dijkstra.make (graph, board.getFinalSubway, board)
 		tmp := dijkstra.dijkstra (1, (board.getfinalsubway.id-1) * board.subways.count + board.getfinalsubway.exits.at (1).id)
 
+		io.put_string_32 ("%N")
 		from
 			i := 1
 		until
 			i > tmp.count
 		loop
-			io.put_string_32 ("asd ")
+			io.put_integer (tmp[i])
+			io.put_string_32 (" ")
 			i := i+1
 		end
 
+	end
+
+	kill
+	do
+		alive := false
+	end
+
+	step
+	local
+		graph: GRAPH
+		dijkstra: DIJKSTRA
+		path : LINKED_LIST[INTEGER]
+		nextExit: EXIT
+	do
+		create graph.make (CURRENT, board)
+		create dijkstra.make (graph, board.getfinalsubway, board)
+		path := dijkstra.dijkstra (1, (board.getfinalsubway.id-1) * board.exits + 2)
+		nextExit := graph.getexit (path.at (1))
+		if currentPosition.x < nextExit.x then
+			currentPosition.setx (currentPosition.x +1)
+		elseif currentPosition.x > nextExit.x then
+			currentPosition.setx (currentPosition.x -1)
+		elseif currentPosition.y < nextExit.y then
+			currentPosition.sety (currentPosition.y +1)
+		elseif currentPosition.y > nextExit.y then
+			currentPosition.sety (currentPosition.y -1)
+		elseif currentPosition.distanceto (nextExit) = 0 then
+			if path.count = 1 then
+				reachedFinal := true
+			else
+				io.put_string_32("asdf")
+				nextExit := graph.getexit (path.at (2))
+				currentPosition := nextExit
+			end
+		end
 	end
 
 
