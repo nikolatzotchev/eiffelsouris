@@ -23,6 +23,8 @@ feature --??????
 			subwayFound, isFinal, mouseFound: BOOLEAN
 
 		do
+			io.put_integer (subways.count)
+			io.put_string_32 ("%N")
 			print ("%/27/[2J")
 			from
 				i := 1

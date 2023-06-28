@@ -77,7 +77,8 @@ feature
 			else
 				io.put_string_32("asdf")
 				nextExit := graph.getexit (path.at (2))
-				currentPosition := nextExit
+				currentPosition.setx (nextExit.x)
+				currentPosition.sety (nextExit.y)
 			end
 		end
 	end
