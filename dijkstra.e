@@ -28,7 +28,7 @@ feature
 		distances: ARRAY [INTEGER]
 		previous: ARRAY [INTEGER]
 		currentNode, distance: INTEGER
-		i: INTEGER
+		i, nearest, nearestNode: INTEGER
 		stop: BOOLEAN
 	do
 		create visited.make_filled (false, 1, graph.matrix.width)
@@ -37,7 +37,8 @@ feature
 
 		distances[source] := 0
 		io.put_string_32 ("WOS ")
-		io.put_integer (target) io.put_string_32 (" SOW")
+		io.put_integer (target)
+		io.put_string_32 (" SOW")
 
 		from
 			currentNode := minDistanceNode (visited, distances)
@@ -68,7 +69,24 @@ feature
 			stop := currentNode /= 1 and (currentNode-2) // board.subways.count = (target-2) // board.subways.count
 		end
 
-		Result := reconstructPath (previous, target)
+		nearest := 2147483647
+		nearestNode := target
+
+		from
+			i := 1
+		until
+			i > board.exits
+		loop
+			io.put_string (" B")
+			io.put_integer (nearest)
+			if distances[(final.id-1)*board.exits+1 +i] < nearest then
+				nearest := distances[(final.id-1)*board.exits+1 +i]
+				nearestNode := (final.id-1)*board.exits+1 +i
+			end
+			i := i+1
+		end
+
+		Result := reconstructPath (previous, nearestNode)
 	end
 
 	reconstructPath (previous: ARRAY [INTEGER]; target: INTEGER): LINKED_LIST [INTEGER]
