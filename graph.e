@@ -15,6 +15,8 @@ feature
 	board: BOARD
 	matrix: ARRAY2[INTEGER]
 
+	-- calculates a matrix that has the distances from every node (subway exit) to each other
+	-- at index 1 is the distance from the currentPosition of the mouse
 	make (mouse_: MOUSE; board_: BOARD)
 	local
 		i,j,k,l, distance, size, subwayCount: INTEGER
@@ -103,6 +105,8 @@ feature
 
 	end
 
+	-- get the respective exit from an index
+	-- calculated by (subwayId-1)*number of exits + exitId +1
 	getExit(marker: INTEGER): EXIT
 	local
 		exit: EXIT
@@ -132,6 +136,8 @@ feature
 		RESULT := exit
 	end
 
+	-- prints the distance matrix
+	-- nly for testing purposes
 	printGraph
 	local
 		i,j: INTEGER

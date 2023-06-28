@@ -19,7 +19,7 @@ feature {NONE} -- Initialization
 		local
 			c: CHARACTER
 		do
-			create board.make (20, 3, 3, 5)
+			create board.make (25, 3, 5, 10)
 			board.display
 			game_loop
 		end
@@ -28,7 +28,6 @@ feature {NONE} -- Initialization
 			c: CHARACTER
 		do
 			from
-					-- Your loop body code here
 
 			until
 				board.finished
@@ -45,7 +44,6 @@ feature {NONE} -- Initialization
 				end
 				board.updateGameStatus
 				board.display
-					-- Your loop body code heress
 			end
 
 			io.put_string_32 ("Game over%NMice killed: ")

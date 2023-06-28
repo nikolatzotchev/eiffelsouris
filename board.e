@@ -17,13 +17,18 @@ feature --??????
 	mice: LINKED_LIST [MOUSE]
 	finished: BOOLEAN
 
+	-- displays the board
+	-- C if cat
+	-- M if mouse (alive and not finished)
+	-- O for subway exit
+	-- F if it is the final exit
+	-- black square if no object
 	display
 		local
 			i, j, k, l, m, s: INTEGER
 			subwayFound, isFinal, mouseFound: BOOLEAN
 
 		do
-			io.put_integer (subways.count)
 			io.put_string_32 ("%N")
 			print ("%/27/[2J")
 			from
@@ -127,6 +132,10 @@ feature --??????
 			end
 		end
 
+	-- c = width and height
+	-- s = number of subways
+	-- e = number of exits for each subway
+	-- m = number of mice
 	make (c, s, e, m: INTEGER)
 			-- Initialization for `Current'.
 		local
@@ -176,6 +185,7 @@ feature --??????
 
 		end
 
+	-- adds a mouse at a random point
 	addRandomMouse (c: INTEGER; randomGenerator: RANDOM)
 		local
 			mouse: MOUSE
@@ -193,10 +203,9 @@ feature --??????
 
 			mice.extend (mouse)
 
-			io.put_string ("mouse created%N")
-
 		end
 
+	-- add a subway with exits at random points
 	addRandomSubway (id, c: INTEGER; randomGenerator: RANDOM)
 		local
 			subway: SUBWAY
@@ -228,6 +237,7 @@ feature --??????
 
 		end
 
+	-- get the final subway of the board
 	getFinalSubway: SUBWAY
 		local
 			subway: SUBWAY
@@ -248,6 +258,8 @@ feature --??????
 			RESULT := subway
 		end
 
+	-- update game status
+	-- kill mice if on the same point as the cat
 	updateGameStatus
 	local
 		i, dead, final: INTEGER
@@ -309,6 +321,7 @@ feature --??????
 		Result := final
 	end
 
+	-- get the number of mice that were killed by the cat
 	getKilledMice: INTEGER
 	local
 		i, kills: INTEGER
@@ -327,8 +340,12 @@ feature --??????
 		end
 
 		Result := kills
+
+		ensure
+			Result <= mice.count and Result >= 0
 	end
 
+	-- get the number of mice that reached the final subway
 	getFinalMice: INTEGER
 	local
 		i, final: INTEGER
@@ -347,6 +364,9 @@ feature --??????
 		end
 
 		Result := final
+
+		ensure
+			Result <= mice.count and Result >= 0
 	end
 
 end

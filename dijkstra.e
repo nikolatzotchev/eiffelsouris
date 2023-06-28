@@ -22,6 +22,8 @@ feature
 		board := board_
 	end
 
+	-- calculates the shortest distance to the final subway
+	-- returns an array of nodes
 	dijkstra (source: INTEGER; target: INTEGER): LINKED_LIST [INTEGER]
 	local
 		visited: ARRAY [BOOLEAN]
@@ -29,26 +31,19 @@ feature
 		previous: ARRAY [INTEGER]
 		currentNode, distance: INTEGER
 		i, nearest, nearestNode: INTEGER
-		stop: BOOLEAN
 	do
 		create visited.make_filled (false, 1, graph.matrix.width)
 		create distances.make_filled (2147483647, 1, graph.matrix.width)
 		create previous.make_filled (-1, 1, graph.matrix.width)
 
 		distances[source] := 0
-		io.put_string_32 ("WOS ")
-		io.put_integer (target)
-		io.put_string_32 (" SOW")
 
 		from
 			currentNode := minDistanceNode (visited, distances)
-			stop := currentNode /= 1 and (currentNode-2) // board.exits = (target-2) // board.exits
 		until
 			currentNode /= 1 and ((currentNode-2) // board.exits) +1 = ((target-2) // board.exits) +1 or currentNode = -1
 		loop
 			visited[currentNode] := true
-			io.put_integer (currentNode)
-			io.put_boolean (stop)
 
 			from
 				i := 1
@@ -66,7 +61,6 @@ feature
 			end
 
 			currentNode := minDistanceNode (visited, distances)
-			stop := currentNode /= 1 and (currentNode-2) // board.subways.count = (target-2) // board.subways.count
 		end
 
 		nearest := 2147483647
@@ -77,8 +71,6 @@ feature
 		until
 			i > board.exits
 		loop
-			io.put_string (" B")
-			io.put_integer (nearest)
 			if distances[(final.id-1)*board.exits+1 +i] < nearest then
 				nearest := distances[(final.id-1)*board.exits+1 +i]
 				nearestNode := (final.id-1)*board.exits+1 +i
@@ -89,33 +81,22 @@ feature
 		Result := reconstructPath (previous, nearestNode)
 	end
 
+	-- reconstructs the path from target to actual position
 	reconstructPath (previous: ARRAY [INTEGER]; target: INTEGER): LINKED_LIST [INTEGER]
         local
             path: LINKED_LIST [INTEGER]
-            currentNode, i: INTEGER
+            currentNode: INTEGER
         do
             create path.make
 
-            io.put_string_32 ("AHA ")
-            from
-            	i := 1
-            until
-            	i > previous.count
-            loop
-            	io.put_integer (previous.at (i))
-            	i := i+1
-            end
-
             currentNode := target
             path.extend (currentNode)
-            io.put_string_32 (" AHA ")
 
             from
                 currentNode := previous.at (currentNode)
             until
                 currentNode = -1
             loop
-            	io.put_integer (currentNode)
                 path.extend (currentNode)
                 currentNode := previous.at (currentNode)
             end
@@ -124,6 +105,7 @@ feature
             Result := reversePath(path)
         end
 
+	-- gets the node with the minimal distance that is not visited
 	minDistanceNode (visited: ARRAY [BOOLEAN]; distances: ARRAY [INTEGER]): INTEGER
     local
 		minDistance, minNode, node: INTEGER
@@ -146,12 +128,14 @@ feature
 		Result := minNode
 	end
 
+	-- reverses the path and removes the start position (last from the reconstructed path)
 	reversePath (path: LINKED_LIST[INTEGER]): LINKED_LIST[INTEGER]
+	require
+		path.count > 1
 	local
 		reversed: LINKED_LIST[INTEGER]
 		i: INTEGER
 	do
-		io.put_integer (path.count)
 		create reversed.make
 		from
 			i := path.count-1
@@ -163,6 +147,8 @@ feature
 		end
 
 		Result := reversed
+	ensure
+		Result.count = path.count -1
 	end
 
 end

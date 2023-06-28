@@ -17,17 +17,25 @@ feature
 	board: BOARD
 
 	make (position: POINT; board_: BOARD)
-	local
-		graph: GRAPH
-		dijkstra: DIJKSTRA
-		tmp: LINKED_LIST[INTEGER]
-		i: INTEGER
 	do
 		alive := true
 		inSubway := -1
 		reachedFinal := false
 		currentPosition := position
 		board := board_
+
+		-- getPath
+	end
+
+	-- prints the shortest path (only nodes)
+	-- test purposes
+	getPath
+	local
+		graph: GRAPH
+		dijkstra: DIJKSTRA
+		tmp: LINKED_LIST[INTEGER]
+		i: INTEGER
+	do
 
 		create graph.make (CURRENT, board)
 		--graph.printgraph
@@ -52,6 +60,8 @@ feature
 		alive := false
 	end
 
+	-- calculates the dijkstra
+	-- goes one step nearer to the next node
 	step
 	local
 		graph: GRAPH
@@ -75,7 +85,6 @@ feature
 			if path.count = 1 then
 				reachedFinal := true
 			else
-				io.put_string_32("asdf")
 				nextExit := graph.getexit (path.at (2))
 				currentPosition.setx (nextExit.x)
 				currentPosition.sety (nextExit.y)
