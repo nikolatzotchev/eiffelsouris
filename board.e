@@ -136,6 +136,7 @@ feature --??????
 			index, mouseIndex: INTEGER
 			finalSubway: INTEGER
 		do
+
 			finished := false
 			cells := c
 			exits := e
@@ -189,8 +190,11 @@ feature --??????
 			initY := randomGenerator.item \\ c + 1
 			create point.make (initX, initY)
 
-			create mouse.make (point, Current)
+			create mouse.make
+			mouse.make_mouse(point)
 
+      mouse.launch
+      --mouse.launch
 			mice.extend (mouse)
 
 			io.put_string ("mouse created%N")
@@ -266,7 +270,7 @@ feature --??????
 						mice.at (i).kill
 					end
 				else
-					mice.at (i).step
+					mice.at (i).step(CURRENT)
 					if mice.at (i).currentposition.distanceto (catLocation) = 0 and not mice.at (i).reachedfinal then
 						mice.at (i).kill
 					end

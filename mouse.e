@@ -7,43 +7,42 @@ note
 class
 	MOUSE
 
+inherit
+  THREAD
+  	redefine
+  		make
+  	end
+
 create
 	make
+
+feature{NONE}
+make
+do
+    Precursor
+    io.put_string("TESTETJESLTJLKESJTLKSET")
+    alive := true
+    inSubway := -1
+    reachedFinal := false
+    create currentPosition.make(1,1)
+end
 
 feature
 	alive, reachedFinal: BOOLEAN
 	inSubway: INTEGER
 	currentPosition: POINT
-	board: BOARD
 
-	make (position: POINT; board_: BOARD)
+	make_mouse(position: POINT)
 	local
 		graph: GRAPH
 		dijkstra: DIJKSTRA
 		tmp: LINKED_LIST[INTEGER]
 		i: INTEGER
 	do
-		alive := true
-		inSubway := -1
-		reachedFinal := false
-		currentPosition := position
-		board := board_
-
-		create graph.make (CURRENT, board)
-		--graph.printgraph
-		create dijkstra.make (graph, board.getFinalSubway, board)
-		tmp := dijkstra.dijkstra (1, (board.getfinalsubway.id-1) * board.subways.count + board.getfinalsubway.exits.at (1).id)
-
-		io.put_string_32 ("%N")
-		from
-			i := 1
-		until
-			i > tmp.count
-		loop
-			io.put_integer (tmp[i])
-			io.put_string_32 (" ")
-			i := i+1
-		end
+    alive := true
+    inSubway := -1
+    reachedFinal := false
+    currentPosition := position
 
 	end
 
@@ -52,7 +51,12 @@ feature
 		alive := false
 	end
 
-	step
+  execute
+  do
+    io.put_string("ASD")
+  end
+
+	step(board:BOARD)
 	local
 		graph: GRAPH
 		dijkstra: DIJKSTRA
