@@ -134,6 +134,9 @@ feature
 		end
 
 		RESULT := exit
+
+		ensure
+			Result.id > 0
 	end
 
 	-- prints the distance matrix
